@@ -1,7 +1,7 @@
 import React from 'react'
-import PassangerTableRow from './PassangerTableRow'
+import PassengerTableRow from './PassengerTableRow'
 import '../assets/css/table.css';
-function PassangerTable(props) {
+function PassengerTable(props) {
     return (
         <div >
             <table className='table'>
@@ -15,11 +15,11 @@ function PassangerTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.passangerList.map( passanger => <PassangerTableRow key={passanger.id} {...passanger} onScreenChange={props.onScreenChange} setSelectedPassanger={props.setSelectedPassanger} deletePassanger={props.deletePassanger}/>)} 
+                    {props.passengerList.map( passenger => <PassengerTableRow key={passenger.id} {...passenger} onScreenChange={props.onScreenChange} setSelectedPassenger={props.setSelectedPassenger} deletePassenger={props.deletePassenger}/>)} 
                 </tbody>
             </table>
         </div>
     )
 }
 
-export default PassangerTable
+export default PassengerTable

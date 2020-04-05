@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export class UpdatePassanger extends Component {
+export class UpdatePassenger extends Component {
   constructor(props) {
     super(props);
     const {
@@ -9,7 +9,7 @@ export class UpdatePassanger extends Component {
       phone,
       email,
       departure
-    } = this.props.selectedPassanger;
+    } = this.props.selectedPassenger;
     this.state = {
       name: name,
       gender: gender,
@@ -36,7 +36,7 @@ export class UpdatePassanger extends Component {
   }
 
   onUpdate(e) {
-    this.props.updatePassanger(this.props.selectedPassanger.id, this.state)
+    this.props.updatePassenger(this.props.selectedPassenger.id, this.state)
     // console.log(JSON.stringify(this.state, null, 4));
     e.preventDefault();
 
@@ -112,4 +112,4 @@ export class UpdatePassanger extends Component {
   }
 }
 
-export default UpdatePassanger;
+export default UpdatePassenger;

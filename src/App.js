@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import PassangerMain from './components/PassangerMain'
+import PassengerMain from './components/PassengerMain'
 
 function App() {
   return (
     <div className="App">
-     <PassangerMain />
+     <PassengerMain />
     </div>
   );
 }

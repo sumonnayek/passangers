@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class AddPassanger extends Component {
+class AddPassenger extends Component {
   constructor(props) {
     super(props);
 
@@ -27,8 +27,8 @@ class AddPassanger extends Component {
   onSubmit(e) {
     e.preventDefault();
     //   console.log(JSON.stringify(this.state, null, 4))
-      this.props.addPassanger(JSON.stringify(this.state, null, 4));
-    // this.props.addPassanger('create');
+      this.props.addPassenger(JSON.stringify(this.state, null, 4));
+    // this.props.addPassenger('create');
       this.onScreenChange();
   }
   render() {
@@ -93,7 +93,7 @@ class AddPassanger extends Component {
           </label>
           <br />
           <br />
-          <input value="Add Passanger" type="submit" />
+          <input value="Add Passenger" type="submit" />
           <button onClick={this.onScreenChange}>Back</button>
         </form>
       </div>
@@ -101,4 +101,4 @@ class AddPassanger extends Component {
   }
 }
 
-export default AddPassanger;
+export default AddPassenger;
