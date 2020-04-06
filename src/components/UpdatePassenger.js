@@ -17,7 +17,6 @@ export class UpdatePassenger extends Component {
       email: email,
       departure: departure
     };
-    console.log(props);
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -38,6 +37,7 @@ export class UpdatePassenger extends Component {
   onUpdate(e) {
     this.props.updatePassenger(this.props.selectedPassenger.id, this.state)
     // console.log(JSON.stringify(this.state, null, 4));
+    this.onScreenChange();
     e.preventDefault();
 
   }

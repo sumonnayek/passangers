@@ -80,9 +80,12 @@ class PassengerMain extends Component {
     });
   };
   updatePassenger = (id, updatedPassenger) => {
-    // console.log(id, updatedPassenger);
+    const{passengerList} = this.state;
     updatedPassenger.id = id;
     console.log(updatedPassenger);
+
+    passengerList[passengerList.map((x, i) => [i, x]).filter( 
+      x => x[1].id === id)[0][0]] = updatedPassenger; 
   };
   deletePassenger = (id) => {
     console.log(id);
