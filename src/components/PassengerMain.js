@@ -81,13 +81,12 @@ class PassengerMain extends Component {
   };
   updatePassenger = (id, updatedPassenger) => {
     const{passengerList} = this.state;
-    updatedPassenger.id = id;
     console.log(updatedPassenger);
 
     // passengerList[passengerList.map((x, i) => [i, x]).filter( 
     //   x => x[1].id === id)[0][0]] = updatedPassenger; 
     const updatedList = passengerList.map(passenger => 
-      passenger.id === id ? {...updatedPassenger} : passenger
+      passenger.id === id ? {...passenger, ...updatedPassenger} : passenger
     );
     console.log(updatedList)
     this.setState({
