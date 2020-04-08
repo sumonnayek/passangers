@@ -1,6 +1,7 @@
 const Express = require("express");
 const Mongoose = require("mongoose");
 const BodyParser = require("body-parser");
+const cors = require('cors');
 
 var app = Express();
 
@@ -18,7 +19,12 @@ const PassengerModel = Mongoose.model("passenger", {
     departure: String
 });
 
-app.post("/addPassenger", async (request, response) => {
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+app.post("/addPassenger", cors(corsOptions), async (request, response) => {
     try {
         var passenger = new PassengerModel(request.body);
         var result = await passenger.save();
@@ -28,16 +34,16 @@ app.post("/addPassenger", async (request, response) => {
     }
 });
 
-app.get("/getPassengerList", async (request, response) => {
+app.get("/passengers", cors(corsOptions), async (request, response) => {
     try {
-        var result = await PassengerModel.find();
+        var result = await PassengerModel.find().exec();
         response.send(result);
     } catch (error) {
         response.status(500).send(error);
     }
 });
 
-app.get("/getPassenger/:id", async (request, response) => {
+app.get("/passenger/:id", async (request, response) => {
     try {
         var passenger = await PassengerModel.find({id: request.params.id});
         console.log(request.body);

@@ -9,37 +9,23 @@ class PassengerMain extends Component {
     super(props);
 
     this.state = {
-      passengerList: [
-        {
-          id: 123,
-          name: "Sumon",
-          gender: "male",
-          phone: 8383838838,
-          email: "sumon@gmail.com",
-          departure: "Bangalore"
-        },
-        {
-          id: 343,
-          name: "Jai",
-          gender: "male",
-          phone: 2984928349,
-          email: "jai@sds.com",
-          departure: "pune"
-        },
-        {
-          id: 657,
-          name: "Radha",
-          gender: "female",
-          phone: 873248762,
-          email: "radha@sfs.com",
-          departure: "kolkata"
-        }
-      ],
+      passengerList: [],
       screen: "list",
       selectedPassengerId: "",
       selectedPassenger: ""
     };
-    console.log(this.state.passengerList);
+    this.fetchPassenger = this.fetchPassenger.bind(this)
+  }
+  fetchPassenger() {
+    fetch('http://localhost:5000/passengers')
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({ passengerList: data })
+    })
+    .catch(console.log)
+  }
+  componentDidMount() {
+    this.fetchPassenger();
   }
   onScreenChange = screen => {
     this.setState({ screen });
@@ -54,16 +40,6 @@ class PassengerMain extends Component {
   //     this.onScreenChange('create');
   //   }
   setSelectedPassenger = selectedPassengerId => {
-    console.log(selectedPassengerId)
-    // this.setState({ selectedPassengerId });
-    // console.log(this.state.passengerList[0])
-    // let passenger = this.state.PassengerList.find(this.getPassenger);
-    // if(passenger) {
-    //     this.setState({
-    //         selectedPassenger: passenger
-    //     })
-    // }
-
     this.setState({ selectedPassengerId }, () => {
       const {passengerList, selectedPassengerId} = this.state;
       this.setState({selectedPassenger: passengerList.find(({id}) => 
@@ -81,10 +57,6 @@ class PassengerMain extends Component {
   };
   updatePassenger = (id, updatedPassenger) => {
     const{passengerList} = this.state;
-    console.log(updatedPassenger);
-
-    // passengerList[passengerList.map((x, i) => [i, x]).filter( 
-    //   x => x[1].id === id)[0][0]] = updatedPassenger; 
     const updatedList = passengerList.map(passenger => 
       passenger.id === id ? {...passenger, ...updatedPassenger} : passenger
     );
@@ -94,7 +66,6 @@ class PassengerMain extends Component {
     })
   };
   deletePassenger = (id) => {
-    console.log(id);
     const passenger = this.state.passengerList.filter( passenger => passenger.id !== id);
     this.setState({ passengerList: passenger}); 
   };
