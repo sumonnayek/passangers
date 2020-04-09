@@ -66,8 +66,13 @@ class PassengerMain extends Component {
     })
   };
   deletePassenger = (id) => {
-    const passenger = this.state.passengerList.filter( passenger => passenger.id !== id);
-    this.setState({ passengerList: passenger}); 
+    // const passenger = this.state.passengerList.filter( passenger => passenger.id !== id);
+    // this.setState({ passengerList: passenger}); 
+    fetch('http://localhost:5000/deletePassengers/' + id)
+    .then(response => response.json())
+    .then(data=> {
+        console.log(data);
+    })
   };
   render() {
     let presentScreen;

@@ -7,6 +7,7 @@ var app = Express();
 
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 Mongoose.connect("mongodb://localhost:27017/passengerList", { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -19,12 +20,7 @@ const PassengerModel = Mongoose.model("passenger", {
     departure: String
 });
 
-var corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
-app.post("/addPassenger", cors(corsOptions), async (request, response) => {
+app.post("/addPassenger", async (request, response) => {
     try {
         var passenger = new PassengerModel(request.body);
         var result = await passenger.save();
@@ -34,7 +30,7 @@ app.post("/addPassenger", cors(corsOptions), async (request, response) => {
     }
 });
 
-app.get("/passengers", cors(corsOptions), async (request, response) => {
+app.get("/passengers", async (request, response) => {
     try {
         var result = await PassengerModel.find().exec();
         response.send(result);
