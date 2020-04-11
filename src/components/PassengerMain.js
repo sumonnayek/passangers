@@ -14,7 +14,8 @@ class PassengerMain extends Component {
       selectedPassengerId: "",
       selectedPassenger: ""
     };
-    this.fetchPassenger = this.fetchPassenger.bind(this)
+    this.fetchPassenger = this.fetchPassenger.bind(this);
+    this.addPassenger = this.addPassenger.bind(this);
   }
   fetchPassenger() {
     fetch('http://localhost:5000/passengers')
@@ -48,12 +49,23 @@ class PassengerMain extends Component {
     });
   };
 
-  addPassenger = newPassenger => {
-    newPassenger = JSON.parse(newPassenger);
-    let joined = this.state.passengerList.concat(newPassenger)
-    this.setState({
-      passengerList: joined
+    async addPassenger(newPassenger) {
+    // console.log(newPassenger);
+    // newPassenger = JSON.parse(newPassenger);
+    // let joined = this.state.passengerList.concat(newPassenger)
+    // this.setState({
+    //   passengerList: joined
+    // });
+    let response = await fetch('http://localhost:5000/addPassenger', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(newPassenger)
     });
+    
+    let result = await response.json();
+    console.log(result.message);
   };
   updatePassenger = (id, updatedPassenger) => {
     const{passengerList} = this.state;
@@ -68,7 +80,12 @@ class PassengerMain extends Component {
   deletePassenger = (id) => {
     // const passenger = this.state.passengerList.filter( passenger => passenger.id !== id);
     // this.setState({ passengerList: passenger}); 
-    fetch('http://localhost:5000/deletePassengers/' + id)
+    fetch('http://localhost:5000/deletePassengers/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': "text/plain;charset=UTF-8"
+      }
+    })
     .then(response => response.json())
     .then(data=> {
         console.log(data);

@@ -15,7 +15,7 @@ const PassengerModel = Mongoose.model("passenger", {
     id: String,
     name: String,
     gender: String,
-    phone: Number,
+    phone: String,
     email: String,
     departure: String
 });
