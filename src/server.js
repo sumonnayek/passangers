@@ -29,7 +29,6 @@ mongoose.connect("mongodb://localhost:27017/passengerList")
     });
 
 const PassengerModel = mongoose.model("passenger", {
-    id: String,
     name: String,
     gender: String,
     phone: String,
@@ -56,16 +55,6 @@ app.get("/passengers", async (request, response) => {
     }
 });
 
-app.get("/passengers/:id", async (request, response) => {
-    try {
-        let passenger = await PassengerModel.find({id: request.params.id});
-        console.log(request.body);
-        response.send(passenger);
-    } catch (error) {
-        response.status(500).send(error);
-    }
-});
-
 app.put("/passengers/:id", async (request, response) => {
     try {
         let passenger = await PassengerModel.find({id: request.params.id}).exec();
@@ -82,7 +71,8 @@ app.put("/passengers/:id", async (request, response) => {
 
 app.delete("/passengers/:id", async (request, response) => {
     try {
-        let result = await PassengerModel.remove({ id: request.params.id });
+        let result = await PassengerModel.remove({ _id: request.params.id });
+        console.log(request.params.id);
         response.send(result);
     } catch (error) {
         response.status(500).send(error);

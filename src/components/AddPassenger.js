@@ -5,7 +5,6 @@ class AddPassenger extends Component {
     super(props);
 
     this.state = {
-      id: Math.floor(Math.random() * 1000),
       name: "",
       gender: "",
       phone: "",
@@ -13,24 +12,37 @@ class AddPassenger extends Component {
       departure: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.addPassenger = this.addPassenger.bind(this);
   }
-  inputChange = (e) => {
+
+  inputChange = e => {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
       [name]: value //we need the different values coming inside name instead of name(ie, [name])
     });
-  }
+  };
+
   onScreenChange = () => {
     this.props.onScreenChange("list");
+  };
+
+  async addPassenger(newPassenger) {
+    let response = await fetch(`http://localhost:5000/passengers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newPassenger)
+    });
   }
+
   onSubmit(e) {
     e.preventDefault();
-    //   console.log(JSON.stringify(this.state, null, 4))
-      this.props.addPassenger(JSON.stringify(this.state, null, 4));
-    // this.props.addPassenger('create');
-      this.onScreenChange();
+    this.addPassenger(this.state);
+    this.onScreenChange();
   }
+
   render() {
     return (
       <div>

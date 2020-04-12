@@ -15,7 +15,7 @@ function PassengerTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.passengerList.map( passenger => <PassengerTableRow key={passenger.id} {...passenger} onScreenChange={props.onScreenChange} setSelectedPassenger={props.setSelectedPassenger} deletePassenger={props.deletePassenger}/>)} 
+                    {props.passengerList.map( passenger => <PassengerTableRow key={passenger._id} {...passenger} onScreenChange={props.onScreenChange} setSelectedPassenger={props.setSelectedPassenger} deletePassenger={props.deletePassenger}/>)} 
                 </tbody>
             </table>
         </div>
