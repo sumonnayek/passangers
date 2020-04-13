@@ -3,6 +3,7 @@ import PassengerList from "./PassengerList";
 import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
+import { resolve, reject } from "q";
 
 class PassengerMain extends Component {
   constructor(props) {
@@ -31,10 +32,10 @@ class PassengerMain extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-      if (this.state.screen !== prevState.screen) {
-            this.fetchPassenger();
-      }
-   }
+    if (this.state.screen !== prevState.screen) {
+      this.fetchPassenger();
+    }
+  }
 
   onScreenChange = screen => {
     this.setState({ screen });
@@ -69,14 +70,24 @@ class PassengerMain extends Component {
   };
 
   deletePassenger = id => {
-    fetch(`http://localhost:5000/passengers/${id}`, {
-      method: "DELETE",
+    // fetch(`http://localhost:5000/passengers/${id}`, {
+    //   method: "DELETE",
 
+    // })
+    //   .then(response => response.json())
+    //   .then((console.log));
+    const promise = new Promise((resolve, reject) => {
+      fetch(`http://localhost:5000/passengers/${id}`, {
+        method: "DELETE"
+      })
+      resolve('success');
+      reject(new Error('...'))
+    });
+    promise.then((result)=> {
+      this.fetchPassenger();
     })
-      .then(response => response.json())
-      .then((console.log));
   };
-  
+
   render() {
     let presentScreen;
     if (this.state.screen === "list") {
@@ -104,17 +115,9 @@ class PassengerMain extends Component {
         />
       );
     } else if (this.state.screen === "create") {
-      presentScreen = (
-        <AddPassenger
-          onScreenChange={this.onScreenChange}
-        />
-      );
+      presentScreen = <AddPassenger onScreenChange={this.onScreenChange} />;
     }
-    return (
-      <div>
-        {presentScreen}
-      </div>
-    );
+    return <div>{presentScreen}</div>;
   }
 }
 

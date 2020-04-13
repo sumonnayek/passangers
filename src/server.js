@@ -57,7 +57,7 @@ app.get("/passengers", async (request, response) => {
 
 app.put("/passengers/:id", async (request, response) => {
     try {
-        let passenger = await PassengerModel.find({id: request.params.id}).exec();
+        let passenger = await PassengerModel.find({_id: request.params.id}).exec();
         if(!passenger) response.status(404).send('no such passenger');
         // console.log(request.params.id);
         console.log(request.body)
