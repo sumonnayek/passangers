@@ -70,22 +70,31 @@ class PassengerMain extends Component {
   };
 
   deletePassenger = id => {
-    // fetch(`http://localhost:5000/passengers/${id}`, {
-    //   method: "DELETE",
+    fetch(`http://localhost:5000/passengers/${id}`, {
+      method: "DELETE",
 
-    // })
-    //   .then(response => response.json())
-    //   .then((console.log));
-    const promise = new Promise((resolve, reject) => {
-      fetch(`http://localhost:5000/passengers/${id}`, {
-        method: "DELETE"
-      })
-      resolve('success');
-      reject(new Error('...'))
-    });
-    promise.then((result)=> {
-      this.fetchPassenger();
     })
+      .then(
+        response => {
+          response.json();
+          // console.log(response);
+          if(response) {
+            this.fetchPassenger(); 
+          }
+        } 
+        // this.fetchPassenger()
+        )
+      .then((console.log));
+    // const promise = new Promise((resolve, reject) => {
+    //   fetch(`http://localhost:5000/passengers/${id}`, {
+    //     method: "DELETE"
+    //   })
+    //   resolve('success');
+    //   reject(new Error('...'))
+    // });
+    // promise.then((result)=> {
+    //   this.fetchPassenger();
+    // })
   };
 
   render() {

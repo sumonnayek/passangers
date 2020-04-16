@@ -37,9 +37,9 @@ class AddPassenger extends Component {
     });
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
-    this.addPassenger(this.state);
+    await this.addPassenger(this.state);
     this.onScreenChange();
   }
 
