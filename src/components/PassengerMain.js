@@ -41,31 +41,20 @@ class PassengerMain extends Component {
     this.setState({ screen });
   };
 
-  getPassenger = passenger => {
-    if (passenger.id === this.state.selectedPassengerId) {
-      return passenger;
-    }
-  };
+  // getPassenger = passenger => {
+  //   if (passenger.id === this.state.selectedPassengerId) {
+  //     return passenger;
+  //   }
+  // };
 
   setSelectedPassenger = selectedPassengerId => {
     this.setState({ selectedPassengerId }, () => {
       const { passengerList, selectedPassengerId } = this.state;
       this.setState({
         selectedPassenger: passengerList.find(
-          ({ id }) => id === selectedPassengerId
+          ({ _id }) => _id === selectedPassengerId
         )
       });
-    });
-  };
-
-  updatePassenger = (id, updatedPassenger) => {
-    const { passengerList } = this.state;
-    const updatedList = passengerList.map(passenger =>
-      passenger.id === id ? { ...passenger, ...updatedPassenger } : passenger
-    );
-    console.log(updatedList);
-    this.setState({
-      passengerList: updatedList
     });
   };
 
@@ -121,6 +110,7 @@ class PassengerMain extends Component {
           selectedPassenger={this.state.selectedPassenger}
           onScreenChange={this.onScreenChange}
           updatePassenger={this.updatePassenger}
+          fetchPassenger={this.fetchPassenger}
         />
       );
     } else if (this.state.screen === "create") {

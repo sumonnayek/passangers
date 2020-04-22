@@ -15,7 +15,7 @@ class ViewPassenger extends Component {
         this.props.onScreenChange('list');
     }
     render() {
-        // console.log(this.props.selectedPassenger);
+        console.log(this.props.selectedPassenger);
         // console.log(this.props)
         // const {name, contact, gender, email, departure} = this.props.presentPassenger
         return (

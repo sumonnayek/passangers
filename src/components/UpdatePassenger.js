@@ -20,11 +20,11 @@ export class UpdatePassenger extends Component {
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
+    this.updatePassenger = this.updatePassenger.bind(this);
 }
   inputChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-    // let value = (name === )
     this.setState({
         [name]:value //we need the different values coming inside name instead of name(ie, [name])
     })
@@ -34,10 +34,19 @@ export class UpdatePassenger extends Component {
     this.props.onScreenChange("list");
   }
 
+  updatePassenger(id) {
+    return fetch(`http://localhost:5000/passengers/${id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    });
+  }
+
   onUpdate(e) {
-    this.props.updatePassenger(this.props.selectedPassenger.id, this.state)
-    // console.log(JSON.stringify(this.state, null, 4));
-    this.onScreenChange();
+        this.updatePassenger(this.props.selectedPassenger._id)
+        .then(this.onScreenChange)
     e.preventDefault();
 
   }
