@@ -21,6 +21,7 @@ export class UpdatePassenger extends Component {
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.updatePassenger = this.updatePassenger.bind(this);
+    // console.log(this.props.selectedPassenger)
 }
   inputChange(e) {
     const name = e.target.name;
@@ -51,7 +52,26 @@ export class UpdatePassenger extends Component {
 
   }
 
+  componentDidMount() {
+    console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(`in didupdate props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
+    if(prevProps.selectedPassenger.name !== this.props.selectedPassenger.name 
+      || prevProps.selectedPassenger.gender !== this.props.selectedPassenger.gender 
+      || prevProps.selectedPassenger.phone !== this.props.selectedPassenger.phone 
+      || prevProps.selectedPassenger.email !== this.props.selectedPassenger.email
+      || Object.keys(prevProps.selectedPassenger).length !== Object.keys(this.props.selectedPassenger).length) {
+      this.setState({
+        ...this.props.selectedPassenger
+      });
+    }
+   
+  }
+
   render() {
+    console.log(`in render props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
     return (
       <div>
         <form onSubmit={this.onUpdate}>

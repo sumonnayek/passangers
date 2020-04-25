@@ -61,7 +61,6 @@ class PassengerMain extends Component {
   deletePassenger = id => {
     fetch(`http://localhost:5000/passengers/${id}`, {
       method: "DELETE",
-
     })
       .then(
         response => {
@@ -71,19 +70,8 @@ class PassengerMain extends Component {
             this.fetchPassenger(); 
           }
         } 
-        // this.fetchPassenger()
         )
       .then((console.log));
-    // const promise = new Promise((resolve, reject) => {
-    //   fetch(`http://localhost:5000/passengers/${id}`, {
-    //     method: "DELETE"
-    //   })
-    //   resolve('success');
-    //   reject(new Error('...'))
-    // });
-    // promise.then((result)=> {
-    //   this.fetchPassenger();
-    // })
   };
 
   render() {

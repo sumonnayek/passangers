@@ -13,7 +13,7 @@ function PassengerTableRow(props) {
     const toEditScreen = () => {
         setSelectedPassenger(props._id);
         onScreenChangeInProps('edit');
-        console.log(props);
+        // console.log(props);
          
     }
     const delPassenger = () => {
