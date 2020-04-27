@@ -1,10 +1,10 @@
-import React from 'react'
-import PassengerTableRow from './PassengerTableRow'
-import '../assets/css/table.css';
+import React from "react";
+import PassengerTableRow from "./PassengerTableRow";
+import "../assets/css/table.css";
 function PassengerTable(props) {
-    return (
-        <div >
-            <table className='table'>
+  return (
+    <div>
+      {/* <table className='table'>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -17,9 +17,30 @@ function PassengerTable(props) {
                 <tbody>
                     {props.passengerList.map( passenger => <PassengerTableRow key={passenger._id} {...passenger} onScreenChange={props.onScreenChange} setSelectedPassenger={props.setSelectedPassenger} deletePassenger={props.deletePassenger}/>)} 
                 </tbody>
-            </table>
+            </table> */}
+      <div className="table-container">
+        <div class="flex-table header" role="rowgroup">
+          <div class="flex-row">Name</div>
+          <div class="flex-row">Gender</div>
+          <div class="flex-row">Contact</div>
+          <div class="flex-row">Email</div>
+          <div class="flex-row">From</div>
+          <div class="flex-row">Action</div>
         </div>
-    )
+        {/* <div class="flex-table row"> */}
+          {props.passengerList.map(passenger => (
+            <PassengerTableRow
+              key={passenger._id}
+              {...passenger}
+              onScreenChange={props.onScreenChange}
+              setSelectedPassenger={props.setSelectedPassenger}
+              deletePassenger={props.deletePassenger}
+            />
+          ))}
+        {/* </div> */}
+      </div>
+    </div>
+  );
 }
 
-export default PassengerTable
+export default PassengerTable;
