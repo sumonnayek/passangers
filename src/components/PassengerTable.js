@@ -19,15 +19,14 @@ function PassengerTable(props) {
                 </tbody>
             </table> */}
       <div className="table-container">
-        <div class="flex-table header" role="rowgroup">
-          <div class="flex-row">Name</div>
-          <div class="flex-row">Gender</div>
-          <div class="flex-row">Contact</div>
-          <div class="flex-row">Email</div>
-          <div class="flex-row">From</div>
-          <div class="flex-row">Action</div>
+        <div className="flex-table header">
+          <div className="flex-row">Name</div>
+          <div className="flex-row">Gender</div>
+          <div className="flex-row">Contact</div>
+          <div className="flex-row">Email</div>
+          <div className="flex-row">From</div>
+          <div className="flex-row">Action</div>
         </div>
-        {/* <div class="flex-table row"> */}
           {props.passengerList.map(passenger => (
             <PassengerTableRow
               key={passenger._id}
@@ -37,7 +36,6 @@ function PassengerTable(props) {
               deletePassenger={props.deletePassenger}
             />
           ))}
-        {/* </div> */}
       </div>
     </div>
   );

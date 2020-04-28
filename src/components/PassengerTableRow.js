@@ -41,13 +41,13 @@ function PassengerTableRow(props) {
     //         <abbr title="Delete Passenger"><FontAwesomeIcon icon={faTrash} onClick={delPassenger}/></abbr>
     //     </td>
     // </tr>
-    <div class="flex-table row">
-      <div class="flex-row">{name}</div>
-      <div class="flex-row">{gender}</div>
-      <div class="flex-row">{phone}</div>
-      <div class="flex-row">{email}</div>
-      <div class="flex-row">{departure}</div>
-      <div class="flex-row">
+    <div className="flex-table row">
+      <div className="flex-row">{name}</div>
+      <div className="flex-row">{gender}</div>
+      <div className="flex-row">{phone}</div>
+      <div className="flex-row">{email}</div>
+      <div className="flex-row">{departure}</div>
+      <div className="flex-row icons">
         <abbr title="View Passenger">
           <FontAwesomeIcon icon={faEye} onClick={toViewScreen} />
         </abbr>

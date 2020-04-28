@@ -7,7 +7,7 @@ class PassengerList extends Component {
 
     this.state = {};
   }
-  
+
   addPassengerScreen = () => {
     this.props.onScreenChange("create");
   };
@@ -21,7 +21,9 @@ class PassengerList extends Component {
           passengerList={this.props.passengerList}
           deletePassenger={this.props.deletePassenger}
         />
-        <button onClick={this.addPassengerScreen}>Add Passenger</button>
+        <div className='align-center'>
+          <button onClick={this.addPassengerScreen}>Add Passenger</button>
+        </div>
       </div>
     );
   }
