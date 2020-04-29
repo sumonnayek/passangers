@@ -48,7 +48,7 @@ function PassengerTableRow(props) {
     //     </abbr>
     //   </td>
     // </tr>
-    <div className="grid-table row">
+    <>
       <div className="grid-cell">{name}</div>
       <div className="grid-cell">{gender}</div>
       <div className="grid-cell">{phone}</div>
@@ -65,7 +65,7 @@ function PassengerTableRow(props) {
           <FontAwesomeIcon icon={faTrash} onClick={delPassenger} />
         </abbr>
       </div>
-    </div>
+    </>
   );
 }
 
