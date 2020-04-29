@@ -14,7 +14,7 @@ class PassengerList extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <PassengerTable
           onScreenChange={this.props.onScreenChange}
           setSelectedPassenger={this.props.setSelectedPassenger}
@@ -22,7 +22,7 @@ class PassengerList extends Component {
           deletePassenger={this.props.deletePassenger}
         />
         <button onClick={this.addPassengerScreen}>Add Passenger</button>
-      </div>
+      </>
     );
   }
 }
