@@ -4,12 +4,12 @@ import "../assets/css/table.css";
 function PassengerTable(props) {
   return (
     <div className="table-container">
-      <div className="grid-cell">Name</div>
-      <div className="grid-cell">Gender</div>
-      <div className="grid-cell">Contact</div>
-      <div className="grid-cell">Email</div>
-      <div className="grid-cell">From</div>
-      <div className="grid-cell">Action</div>
+      <div className="grid-cell header">Name</div>
+      <div className="grid-cell header">Gender</div>
+      <div className="grid-cell header">Contact</div>
+      <div className="grid-cell header">Email</div>
+      <div className="grid-cell header">From</div>
+      <div className="grid-cell header">Action</div>
       {props.passengerList.map(passenger => (
         <PassengerTableRow
           key={passenger._id}
