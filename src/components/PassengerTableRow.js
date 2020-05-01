@@ -30,24 +30,6 @@ function PassengerTableRow(props) {
   };
 
   return (
-    // <tr>
-    //   <td>{name}</td>
-    //   <td>{gender}</td>
-    //   <td>{phone}</td>
-    //   <td>{email}</td>
-    //   <td>{departure}</td>
-    //   <td>
-    //     <abbr title="View Passenger">
-    //       <FontAwesomeIcon icon={faEye} onClick={toViewScreen} />
-    //     </abbr>
-    //     <abbr title="Edit Passenger">
-    //       <FontAwesomeIcon icon={faEdit} onClick={toEditScreen} />
-    //     </abbr>
-    //     <abbr title="Delete Passenger">
-    //       <FontAwesomeIcon icon={faTrash} onClick={delPassenger} />
-    //     </abbr>
-    //   </td>
-    // </tr>
     <>
       <div className="grid-cell">{name}</div>
       <div className="grid-cell">{gender}</div>

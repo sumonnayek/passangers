@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 
 class AddPassenger extends Component {
   constructor(props) {
     super(props);
-
+    this.inputRef = React.createRef()
     this.state = {
       name: "",
       gender: "",
@@ -15,6 +15,10 @@ class AddPassenger extends Component {
     this.addPassenger = this.addPassenger.bind(this);
   }
 
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+  
   inputChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -54,6 +58,7 @@ class AddPassenger extends Component {
               name="name"
               value={this.state.name}
               onChange={this.inputChange}
+              ref={this.inputRef}
             />
           </label>
           <br />

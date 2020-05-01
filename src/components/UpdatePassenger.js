@@ -3,6 +3,7 @@ import React, { Component } from "react";
 export class UpdatePassenger extends Component {
   constructor(props) {
     super(props);
+    this.inputRef = React.createRef();
     const {
       name,
       gender,
@@ -53,7 +54,8 @@ export class UpdatePassenger extends Component {
   }
 
   componentDidMount() {
-    console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
+    // console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
+    this.inputRef.current.focus();
   }
 
   componentDidUpdate(prevProps) {
@@ -82,6 +84,7 @@ export class UpdatePassenger extends Component {
               name="name"
               value={this.state.name}
               onChange={this.inputChange}
+              ref={this.inputRef}
             />
           </label>
           <br />

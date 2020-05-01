@@ -4,6 +4,7 @@ import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
 import { resolve, reject } from "q";
+import PassengerTableRow from "./PassengerTableRow";
 
 class PassengerMain extends Component {
   constructor(props) {
@@ -60,18 +61,10 @@ class PassengerMain extends Component {
 
   deletePassenger = id => {
     fetch(`http://localhost:5000/passengers/${id}`, {
-      method: "DELETE",
+      method: "DELETE"
     })
-      .then(
-        response => {
-          response.json();
-          // console.log(response);
-          if(response) {
-            this.fetchPassenger(); 
-          }
-        } 
-        )
-      .then((console.log));
+      .then(response => response.json())
+      .then(() => this.fetchPassenger());
   };
 
   render() {
