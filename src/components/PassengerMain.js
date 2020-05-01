@@ -64,7 +64,7 @@ class PassengerMain extends Component {
       method: "DELETE"
     })
       .then(response => response.json())
-      .then(() => this.fetchPassenger());
+      .then(this.fetchPassenger)
   };
 
   render() {
