@@ -14,18 +14,23 @@ class PassengerMain extends Component {
       passengerList: [],
       screen: "list",
       selectedPassengerId: "",
-      selectedPassenger: ""
+      selectedPassenger: "",
+      loading: false
     };
     this.fetchPassenger = this.fetchPassenger.bind(this);
   }
 
   fetchPassenger() {
-    fetch("http://localhost:5000/passengers")
+    this.setState({ loading: true });
+    setTimeout(()=> {
+      fetch("http://localhost:5000/passengers")
       .then(response => response.json())
       .then(data => {
-        this.setState({ passengerList: data });
+        this.setState({ passengerList: data , loading: false});
       })
       .catch(console.log);
+    },1500)
+    
   }
 
   componentDidMount() {
@@ -64,7 +69,7 @@ class PassengerMain extends Component {
       method: "DELETE"
     })
       .then(response => response.json())
-      .then(this.fetchPassenger)
+      .then(this.fetchPassenger);
   };
 
   render() {
@@ -76,6 +81,7 @@ class PassengerMain extends Component {
           setSelectedPassenger={this.setSelectedPassenger}
           passengerList={this.state.passengerList}
           deletePassenger={this.deletePassenger}
+          loading={this.state.loading}
         />
       );
     } else if (this.state.screen === "view") {
@@ -97,7 +103,12 @@ class PassengerMain extends Component {
     } else if (this.state.screen === "create") {
       presentScreen = <AddPassenger onScreenChange={this.onScreenChange} />;
     }
-    return <div>{presentScreen}</div>;
+    return (
+      <div>
+        {presentScreen}
+        {/* {this.state.loading && <div>Loading...</div>} */}
+      </div>
+    );
   }
 }
 

@@ -12,24 +12,24 @@ export class UpdatePassenger extends Component {
       departure
     } = this.props.selectedPassenger;
     this.state = {
-      name: name,
-      gender: gender,
-      phone: phone,
-      email: email,
-      departure: departure
+      name,
+      gender,
+      phone,
+      email,
+      departure
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.updatePassenger = this.updatePassenger.bind(this);
     // console.log(this.props.selectedPassenger)
-}
+  }
   inputChange(e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-        [name]:value //we need the different values coming inside name instead of name(ie, [name])
-    })
+      [name]: value //we need the different values coming inside name instead of name(ie, [name])
+    });
   }
 
   onScreenChange() {
@@ -38,7 +38,7 @@ export class UpdatePassenger extends Component {
 
   updatePassenger(id) {
     return fetch(`http://localhost:5000/passengers/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -47,10 +47,10 @@ export class UpdatePassenger extends Component {
   }
 
   onUpdate(e) {
-        this.updatePassenger(this.props.selectedPassenger._id)
-        .then(this.onScreenChange)
+    this.updatePassenger(this.props.selectedPassenger._id).then(
+      this.onScreenChange
+    );
     e.preventDefault();
-
   }
 
   componentDidMount() {
@@ -59,21 +59,38 @@ export class UpdatePassenger extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(`in didupdate props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
-    if(prevProps.selectedPassenger.name !== this.props.selectedPassenger.name 
-      || prevProps.selectedPassenger.gender !== this.props.selectedPassenger.gender 
-      || prevProps.selectedPassenger.phone !== this.props.selectedPassenger.phone 
-      || prevProps.selectedPassenger.email !== this.props.selectedPassenger.email
-      || Object.keys(prevProps.selectedPassenger).length !== Object.keys(this.props.selectedPassenger).length) {
+    console.log(
+      `in didupdate props: ${JSON.stringify(
+        this.props.selectedPassenger,
+        null,
+        4
+      )}`
+    );
+    if (
+      prevProps.selectedPassenger.name !== this.props.selectedPassenger.name ||
+      prevProps.selectedPassenger.gender !==
+        this.props.selectedPassenger.gender ||
+      prevProps.selectedPassenger.phone !==
+        this.props.selectedPassenger.phone ||
+      prevProps.selectedPassenger.email !==
+        this.props.selectedPassenger.email ||
+      Object.keys(prevProps.selectedPassenger).length !==
+        Object.keys(this.props.selectedPassenger).length
+    ) {
       this.setState({
         ...this.props.selectedPassenger
       });
     }
-   
   }
 
   render() {
-    console.log(`in render props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
+    console.log(
+      `in render props: ${JSON.stringify(
+        this.props.selectedPassenger,
+        null,
+        4
+      )}`
+    );
     return (
       <div>
         <form onSubmit={this.onUpdate}>
@@ -136,7 +153,7 @@ export class UpdatePassenger extends Component {
           </label>
           <br />
           <br />
-          <input value='Update' type='submit'/>
+          <input value="Update" type="submit" />
           <button onClick={this.onScreenChange}>Back</button>
         </form>
       </div>

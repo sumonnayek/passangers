@@ -19,7 +19,7 @@ class PassengerList extends Component {
     //     <Avatar user={user} size={props.avatarSize} />
     //   </Link>
     // );
-
+    console.log(this.props)
     return (
       <>
         <PassengerTable
@@ -28,6 +28,7 @@ class PassengerList extends Component {
           passengerList={this.props.passengerList}
           deletePassenger={this.props.deletePassenger}
         />
+        {this.props.loading && <div>Loading...</div>}
         <button onClick={this.addPassengerScreen}>Add Passenger</button>
       </>
     );
