@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function PassengerTableRow(props) {
   const {
@@ -37,12 +38,17 @@ function PassengerTableRow(props) {
       <div className="grid-cell">{email}</div>
       <div className="grid-cell">{departure}</div>
       <div className="grid-cell icons">
-        <abbr title="View Passenger">
-          <FontAwesomeIcon icon={faEye} onClick={toViewScreen} />
-        </abbr>
-        <abbr title="Edit Passenger">
-          <FontAwesomeIcon icon={faEdit} onClick={toEditScreen} />
-        </abbr>
+        <Link to={`/view/${props._id}`}>
+          <abbr title="View Passenger">
+            <FontAwesomeIcon icon={faEye} />
+          </abbr>
+        </Link>
+
+        <Link to={`/update/${props._id}`}>
+          <abbr title="Edit Passenger">
+            <FontAwesomeIcon icon={faEdit} />
+          </abbr>
+        </Link>
         <abbr title="Delete Passenger">
           <FontAwesomeIcon icon={faTrash} onClick={delPassenger} />
         </abbr>

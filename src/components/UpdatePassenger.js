@@ -1,28 +1,23 @@
 import React, { Component } from "react";
 
-export class UpdatePassenger extends Component {
+class UpdatePassenger extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
-    const {
-      name,
-      gender,
-      phone,
-      email,
-      departure
-    } = this.props.selectedPassenger;
+    
     this.state = {
-      name,
-      gender,
-      phone,
-      email,
-      departure
+      name:'',
+      gender:'',
+      phone:'',
+      email:'',
+      departure:''
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.updatePassenger = this.updatePassenger.bind(this);
     // console.log(this.props.selectedPassenger)
+    // console.log(this.props.match.params.id);
   }
   inputChange(e) {
     const name = e.target.name;
@@ -31,9 +26,9 @@ export class UpdatePassenger extends Component {
       [name]: value //we need the different values coming inside name instead of name(ie, [name])
     });
   }
-
+  
   onScreenChange() {
-    this.props.onScreenChange("list");
+    this.props.history.goBack();
   }
 
   updatePassenger(id) {
@@ -47,50 +42,58 @@ export class UpdatePassenger extends Component {
   }
 
   onUpdate(e) {
-    this.updatePassenger(this.props.selectedPassenger._id).then(
-      this.onScreenChange
-    );
+    this.updatePassenger(this.props.match.params.id).then(
+      this.props.history.goBack()
+      );
     e.preventDefault();
   }
 
   componentDidMount() {
     // console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
     this.inputRef.current.focus();
+    console.log(this.props.match.params.id)
+    this.getPassengerById(this.props.match.params.id);
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(
-      `in didupdate props: ${JSON.stringify(
-        this.props.selectedPassenger,
-        null,
-        4
-      )}`
-    );
-    if (
-      prevProps.selectedPassenger.name !== this.props.selectedPassenger.name ||
-      prevProps.selectedPassenger.gender !==
-        this.props.selectedPassenger.gender ||
-      prevProps.selectedPassenger.phone !==
-        this.props.selectedPassenger.phone ||
-      prevProps.selectedPassenger.email !==
-        this.props.selectedPassenger.email ||
-      Object.keys(prevProps.selectedPassenger).length !==
-        Object.keys(this.props.selectedPassenger).length
-    ) {
-      this.setState({
-        ...this.props.selectedPassenger
-      });
-    }
+  getPassengerById = (id) => {
+    // this.setState({ loading: true });
+    setTimeout(() => {
+      fetch(`http://localhost:5000/passenger/${id}`)
+        .then(response => response.json())
+        .then(data => {
+          this.setState({ ...data[0] });
+        })
+        .catch(console.log);
+    }, 1500);
   }
+
+  // componentDidUpdate(prevProps) {
+  //   console.log(
+  //     `in didupdate props: ${JSON.stringify(
+  //       this.props.selectedPassenger,
+  //       null,
+  //       4
+  //     )}`
+  //   );
+  //   if (
+  //     prevProps.selectedPassenger.name !== this.props.selectedPassenger.name ||
+  //     prevProps.selectedPassenger.gender !==
+  //       this.props.selectedPassenger.gender ||
+  //     prevProps.selectedPassenger.phone !==
+  //       this.props.selectedPassenger.phone ||
+  //     prevProps.selectedPassenger.email !==
+  //       this.props.selectedPassenger.email ||
+  //     Object.keys(prevProps.selectedPassenger).length !==
+  //       Object.keys(this.props.selectedPassenger).length
+  //   ) {
+  //     this.setState({
+  //       ...this.props.selectedPassenger
+  //     });
+  //   }
+  // }
 
   render() {
-    console.log(
-      `in render props: ${JSON.stringify(
-        this.props.selectedPassenger,
-        null,
-        4
-      )}`
-    );
+  
     return (
       <div>
         <form onSubmit={this.onUpdate}>

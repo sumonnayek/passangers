@@ -1,4 +1,5 @@
 import React, { Component, createRef } from "react";
+import { Link } from 'react-router-dom';
 
 class AddPassenger extends Component {
   constructor(props) {
@@ -28,7 +29,8 @@ class AddPassenger extends Component {
   };
 
   onScreenChange = () => {
-    this.props.onScreenChange("list");
+    // this.props.onScreenChange("list");
+    this.props.history.goBack();
   };
 
   async addPassenger(newPassenger) {
@@ -44,6 +46,7 @@ class AddPassenger extends Component {
   async onSubmit(e) {
     e.preventDefault();
     await this.addPassenger(this.state);
+    console.dir(this.props.history);
     this.onScreenChange();
   }
 
@@ -111,7 +114,7 @@ class AddPassenger extends Component {
           <br />
           <br />
           <input value="Add Passenger" type="submit" />
-          <button onClick={this.onScreenChange}>Back</button>
+          <button> <Link to='/'>Back</Link></button>
         </form>
       </div>
     );

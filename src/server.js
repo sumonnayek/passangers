@@ -56,6 +56,15 @@ app.get("/passengers", async (request, response) => {
   }
 });
 
+app.get("/passenger/:id", async (request, response) => {
+  try {
+    let result = await PassengerModel.find({ _id: request.params.id }).exec();
+    response.send(result);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 app.put("/passengers/:id", async (request, response) => {
   // Validate Request
   if (!request.body) {
@@ -109,7 +118,6 @@ app.put("/passengers/:id", async (request, response) => {
 app.delete("/passengers/:id", async (request, response) => {
   try {
     let result = await PassengerModel.remove({ _id: request.params.id });
-    console.log(request.params.id);
     response.send(result);
   } catch (error) {
     response.status(500).send(error);

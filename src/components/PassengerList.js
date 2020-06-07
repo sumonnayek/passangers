@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PassengerTable from "./PassengerTable";
+import {Redirect, Link} from 'react-router-dom';
 
 class PassengerList extends Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class PassengerList extends Component {
   }
 
   addPassengerScreen = () => {
-    this.props.onScreenChange("create");
+    // this.props.onScreenChange("create");
+    console.log(this.props);
+    return <this to="/add" />
   };
 
   render() {
@@ -19,7 +22,6 @@ class PassengerList extends Component {
     //     <Avatar user={user} size={props.avatarSize} />
     //   </Link>
     // );
-    console.log(this.props)
     return (
       <>
         <PassengerTable
@@ -29,7 +31,7 @@ class PassengerList extends Component {
           deletePassenger={this.props.deletePassenger}
         />
         {this.props.loading && <div>Loading...</div>}
-        <button onClick={this.addPassengerScreen}>Add Passenger</button>
+        <button><Link  to='/add'>Add Passenger</Link></button>        
       </>
     );
   }
