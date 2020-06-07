@@ -14,8 +14,6 @@ function PassengerTable(props) {
         <PassengerTableRow
           key={passenger._id}
           {...passenger}
-          onScreenChange={props.onScreenChange}
-          setSelectedPassenger={props.setSelectedPassenger}
           deletePassenger={props.deletePassenger}
         />
       ))}

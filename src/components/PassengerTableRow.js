@@ -10,20 +10,9 @@ function PassengerTableRow(props) {
     phone,
     email,
     departure,
-    onScreenChange: onScreenChangeInProps,
-    setSelectedPassenger,
     deletePassenger
   } = props;
-  const toViewScreen = () => {
-    setSelectedPassenger(props._id);
-    onScreenChangeInProps("view");
-  };
-
-  const toEditScreen = () => {
-    setSelectedPassenger(props._id);
-    onScreenChangeInProps("edit");
-    // console.log(props);
-  };
+  
 
   const delPassenger = () => {
     deletePassenger(props._id);
