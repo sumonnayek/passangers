@@ -16,12 +16,11 @@ class ViewPassenger extends Component {
   }
 
   getPassengerById = id => {
-    // this.setState({ loading: true });
     setTimeout(() => {
       fetch(`http://localhost:5000/passenger/${id}`)
         .then(response => response.json())
         .then(data => {
-          this.setState({ ...data[0], loading:false });
+          this.setState({ ...data[0] });
         })
         .catch(console.log);
     }, 1500);
