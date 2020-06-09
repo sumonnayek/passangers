@@ -49,12 +49,6 @@ class PassengerList extends Component {
   };
 
   render() {
-    // const onScreenChange = this.props.onScreenChange;
-    // const screen = (
-    //   <Link href={user.permalink}>
-    //     <Avatar user={user} size={props.avatarSize} />
-    //   </Link>
-    // );
     return (
       <>
         <PassengerTable
