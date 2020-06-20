@@ -4,13 +4,13 @@ class UpdatePassenger extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
-    
+
     this.state = {
-      name:'',
-      gender:'',
-      phone:'',
-      email:'',
-      departure:''
+      name: "",
+      gender: "",
+      phone: "",
+      email: "",
+      departure: ""
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
@@ -26,7 +26,7 @@ class UpdatePassenger extends Component {
       [name]: value //we need the different values coming inside name instead of name(ie, [name])
     });
   }
-  
+
   onScreenChange() {
     this.props.history.goBack();
   }
@@ -42,20 +42,19 @@ class UpdatePassenger extends Component {
   }
 
   onUpdate(e) {
-    this.updatePassenger(this.props.match.params.id).then(
-      this.props.history.goBack()
-      );
+    this.updatePassenger(this.props.match.params.id)
+      .then(() => this.props.history.push("/"));
     e.preventDefault();
   }
 
   componentDidMount() {
     // console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
     this.inputRef.current.focus();
-    console.log(this.props.match.params.id)
+    console.log(this.props.match.params.id);
     this.getPassengerById(this.props.match.params.id);
   }
 
-  getPassengerById = (id) => {
+  getPassengerById = id => {
     // this.setState({ loading: true });
     setTimeout(() => {
       fetch(`http://localhost:5000/passenger/${id}`)
@@ -65,7 +64,7 @@ class UpdatePassenger extends Component {
         })
         .catch(console.log);
     }, 1500);
-  }
+  };
 
   // componentDidUpdate(prevProps) {
   //   console.log(
@@ -93,7 +92,6 @@ class UpdatePassenger extends Component {
   // }
 
   render() {
-  
     return (
       <div>
         <form onSubmit={this.onUpdate}>

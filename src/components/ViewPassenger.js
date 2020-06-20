@@ -8,11 +8,12 @@ class ViewPassenger extends Component {
   }
 
   onScreenChange() {
-    this.props.history.goBack();
+    this.props.history.push('/');
   }
 
   componentDidMount() {
     this.getPassengerById(this.props.match.params.id);
+    console.dir(this.props.match);
   }
 
   getPassengerById = id => {
@@ -27,7 +28,7 @@ class ViewPassenger extends Component {
   };
 
   render() {
-    console.log(this.props.history);
+    console.log(this.props.location);
     // console.log(this.props)
     // const {name, contact, gender, email, departure} = this.props.presentPassenger
     return (
