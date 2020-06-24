@@ -1,30 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import PassengerTable from "./PassengerTable";
 
-class PassengerList extends Component {
-  constructor(props) {
-    super(props);
+function PassengerList(props) {
 
-    this.state = {};
-  }
-  
-  addPassengerScreen = () => {
-    this.props.onScreenChange("create");
+  const addPassengerScreen = () => {
+    props.onScreenChange("create");
   };
 
-  render() {
-    return (
-      <div>
-        <PassengerTable
-          onScreenChange={this.props.onScreenChange}
-          setSelectedPassenger={this.props.setSelectedPassenger}
-          passengerList={this.props.passengerList}
-          deletePassenger={this.props.deletePassenger}
-        />
-        <button onClick={this.addPassengerScreen}>Add Passenger</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <PassengerTable
+        onScreenChange={props.onScreenChange}
+        setSelectedPassenger={props.setSelectedPassenger}
+        passengerList={props.passengerList}
+        deletePassenger={props.deletePassenger}
+      />
+      <button onClick={addPassengerScreen}>Add Passenger</button>
+    </div>
+  );
 }
 
 export default PassengerList;

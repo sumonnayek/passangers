@@ -1,111 +1,94 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import PassengerList from "./PassengerList";
 import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
-import { resolve, reject } from "q";
 
-class PassengerMain extends Component {
-  constructor(props) {
-    super(props);
+function PassengerMain() {
+  const [passengerList, setPassengerList] = useState([]);
+  const [selectedPassengerId, setSelectedPassengerId] = useState("");
+  const [selectedPassenger, setSelectedPassenger] = useState("");
+  const [screen, setScreen] = useState("list");
 
-    this.state = {
-      passengerList: [],
-      screen: "list",
-      selectedPassengerId: "",
-      selectedPassenger: ""
-    };
-    this.fetchPassenger = this.fetchPassenger.bind(this);
-  }
+  useEffect(() => {
+    fetchPassenger();
+    changeScreen();
+  }, []);
 
-  fetchPassenger() {
+  useEffect(() => {
+    fetchPassenger();
+    console.log("didupdate");
+  }, [screen]);
+
+  useEffect(() => {
+    setSelectedPassenger(
+      passengerList.find(({ _id }) => _id === selectedPassengerId)
+    );
+  }, [selectedPassengerId]);
+
+  const fetchPassenger = () => {
     fetch("http://localhost:5000/passengers")
       .then(response => response.json())
       .then(data => {
-        this.setState({ passengerList: data });
+        setPassengerList(data);
       })
+      .then(() => console.log(passengerList))
       .catch(console.log);
-  }
-
-  componentDidMount() {
-    this.fetchPassenger();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.screen !== prevState.screen) {
-      this.fetchPassenger();
-    }
-  }
-
-  onScreenChange = screen => {
-    this.setState({ screen });
   };
 
-  // getPassenger = passenger => {
-  //   if (passenger.id === this.state.selectedPassengerId) {
-  //     return passenger;
-  //   }
-  // };
-
-  setSelectedPassenger = selectedPassengerId => {
-    this.setState({ selectedPassengerId }, () => {
-      const { passengerList, selectedPassengerId } = this.state;
-      this.setState({
-        selectedPassenger: passengerList.find(
-          ({ _id }) => _id === selectedPassengerId
-        )
-      });
-    });
+  const onScreenChange = screen => {
+    setScreen(screen);
   };
 
-  deletePassenger = id => {
+  const settingSelectedPassenger = selectedPassengerId => {
+    setSelectedPassengerId(selectedPassengerId);
+  };
+
+  const deletePassenger = id => {
     fetch(`http://localhost:5000/passengers/${id}`, {
-      method: "DELETE",
+      method: "DELETE"
     })
-      .then(
-        response => {
-          response.json();
-          // console.log(response);
-          if(response) {
-            this.fetchPassenger(); 
-          }
-        } 
-        )
-      .then((console.log));
+      .then(response => {
+        response.json();
+        if (response) {
+          fetchPassenger();
+        }
+      })
+      .then(console.log);
   };
 
-  render() {
-    let presentScreen;
-    if (this.state.screen === "list") {
-      presentScreen = (
-        <PassengerList
-          onScreenChange={this.onScreenChange}
-          setSelectedPassenger={this.setSelectedPassenger}
-          passengerList={this.state.passengerList}
-          deletePassenger={this.deletePassenger}
-        />
-      );
-    } else if (this.state.screen === "view") {
-      presentScreen = (
-        <ViewPassenger
-          selectedPassenger={this.state.selectedPassenger}
-          onScreenChange={this.onScreenChange}
-        />
-      );
-    } else if (this.state.screen === "edit") {
-      presentScreen = (
-        <UpdatePassenger
-          selectedPassenger={this.state.selectedPassenger}
-          onScreenChange={this.onScreenChange}
-          updatePassenger={this.updatePassenger}
-          fetchPassenger={this.fetchPassenger}
-        />
-      );
-    } else if (this.state.screen === "create") {
-      presentScreen = <AddPassenger onScreenChange={this.onScreenChange} />;
+  const changeScreen = () => {
+    switch (screen) {
+      case "view":
+        return (
+          <ViewPassenger
+            selectedPassenger={selectedPassenger}
+            onScreenChange={onScreenChange}
+          />
+        );
+      case "edit":
+        return (
+          <UpdatePassenger
+            selectedPassenger={selectedPassenger}
+            onScreenChange={onScreenChange}
+            fetchPassenger={fetchPassenger}
+          />
+        );
+      case "create":
+        return <AddPassenger onScreenChange={onScreenChange} />;
+      default:
+        return (
+          <PassengerList
+            onScreenChange={onScreenChange}
+            setSelectedPassenger={settingSelectedPassenger}
+            passengerList={passengerList}
+            deletePassenger={deletePassenger}
+          />
+        );
     }
-    return <div>{presentScreen}</div>;
-  }
+  };
+
+  return <div>{changeScreen()}</div>;
 }
 
 export default PassengerMain;
