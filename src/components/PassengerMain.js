@@ -3,55 +3,33 @@ import PassengerList from "./PassengerList";
 import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
-import { resolve, reject } from "q";
-import PassengerTableRow from "./PassengerTableRow";
+import { connect } from "react-redux";
+import { fetchPassengers } from '../actions'
 
 class PassengerMain extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      passengerList: [],
       screen: "list",
       selectedPassengerId: "",
       selectedPassenger: "",
-      loading: false
     };
-    this.fetchPassenger = this.fetchPassenger.bind(this);
-  }
-
-  fetchPassenger() {
-    this.setState({ loading: true });
-    setTimeout(()=> {
-      fetch("http://localhost:5000/passengers")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ passengerList: data , loading: false});
-      })
-      .catch(console.log);
-    },1500)
-    
   }
 
   componentDidMount() {
-    this.fetchPassenger();
+    this.props.fetchPassengers();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.screen !== prevState.screen) {
-      this.fetchPassenger();
+      // this.fetchPassenger();
     }
   }
 
   onScreenChange = screen => {
     this.setState({ screen });
   };
-
-  // getPassenger = passenger => {
-  //   if (passenger.id === this.state.selectedPassengerId) {
-  //     return passenger;
-  //   }
-  // };
 
   setSelectedPassenger = selectedPassengerId => {
     this.setState({ selectedPassengerId }, () => {
@@ -73,15 +51,17 @@ class PassengerMain extends Component {
   };
 
   render() {
+    console.log(this.props)
+
     let presentScreen;
     if (this.state.screen === "list") {
       presentScreen = (
         <PassengerList
           onScreenChange={this.onScreenChange}
           setSelectedPassenger={this.setSelectedPassenger}
-          passengerList={this.state.passengerList}
+          passengerList={this.props.passengerList}
           deletePassenger={this.deletePassenger}
-          loading={this.state.loading}
+          loading={this.props.loading}
         />
       );
     } else if (this.state.screen === "view") {
@@ -112,4 +92,13 @@ class PassengerMain extends Component {
   }
 }
 
-export default PassengerMain;
+const mapStateToProps = state => ({
+   passengerList: state.passengers.passengerList,
+   loading: state.passengers.loading
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchPassengers : () => dispatch(fetchPassengers())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PassengerMain)
