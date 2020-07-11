@@ -8,10 +8,7 @@ class ViewPassenger extends Component {
 
     this.state = {};
     this.onScreenChange = this.onScreenChange.bind(this);
-    console.log("view");
   }
-
-  setPassenger = () => {};
 
   componentDidMount() {
     this.props.setPassenger();

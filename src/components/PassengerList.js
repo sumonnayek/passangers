@@ -15,18 +15,9 @@ class PassengerList extends Component {
   };
 
   render() {
-    // const onScreenChange = this.props.onScreenChange;
-    // const screen = (
-    //   <Link href={user.permalink}>
-    //     <Avatar user={user} size={props.avatarSize} />
-    //   </Link>
-    // );
-    console.log(this.props)
     return (
       <>
         <PassengerTable
-          onScreenChange={this.props.onScreenChange}
-          setSelectedPassenger={this.props.setSelectedPassenger}
           passengerList={this.props.passengerList}
           deletePassenger={this.props.deletePassenger}
         />
