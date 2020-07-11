@@ -1,6 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { setPassengerById, setScreen } from "../actions";
+import { connect } from "react-redux";
 
 function PassengerTableRow(props) {
   const {
@@ -38,10 +40,22 @@ function PassengerTableRow(props) {
       <div className="grid-cell">{departure}</div>
       <div className="grid-cell icons">
         <abbr title="View Passenger">
-          <FontAwesomeIcon icon={faEye} onClick={toViewScreen} />
+          <FontAwesomeIcon
+            icon={faEye}
+            onClick={() => {
+              props.setPassengerById(props._id);
+              props.setScreen('view');
+            }}
+          />
         </abbr>
         <abbr title="Edit Passenger">
-          <FontAwesomeIcon icon={faEdit} onClick={toEditScreen} />
+          <FontAwesomeIcon
+            icon={faEdit}
+            onClick={() => {
+              props.setPassengerById(props._id);
+              props.setScreen('edit');
+            }}
+          />
         </abbr>
         <abbr title="Delete Passenger">
           <FontAwesomeIcon icon={faTrash} onClick={delPassenger} />
@@ -51,4 +65,9 @@ function PassengerTableRow(props) {
   );
 }
 
-export default PassengerTableRow;
+const mapDispatchToProps = dispatch => ({
+  setPassengerById: id => dispatch(setPassengerById(id)),
+  setScreen : screen => dispatch(setScreen(screen))
+});
+
+export default connect(null, mapDispatchToProps)(PassengerTableRow);

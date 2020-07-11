@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PassengerTable from "./PassengerTable";
+import { connect } from "react-redux";
+import { setScreen } from '../actions';
 
 class PassengerList extends Component {
   constructor(props) {
@@ -29,10 +31,14 @@ class PassengerList extends Component {
           deletePassenger={this.props.deletePassenger}
         />
         {this.props.loading && <div>Loading...</div>}
-        <button onClick={this.addPassengerScreen}>Add Passenger</button>
+        <button onClick={() => {this.props.setScreen('create')}}>Add Passenger</button>
       </>
     );
   }
 }
 
-export default PassengerList;
+const mapDispatchToProps = dispatch => ({
+  setScreen : screen => dispatch(setScreen(screen))
+});
+
+export default connect(null, mapDispatchToProps)(PassengerList);

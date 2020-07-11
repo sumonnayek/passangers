@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { setScreen, setSelectedPassenger } from "../actions";
+import { connect } from "react-redux";
 
 export class UpdatePassenger extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ export class UpdatePassenger extends Component {
       phone,
       email,
       departure
-    } = this.props.selectedPassenger;
+    } = this.props.passenger;
     this.state = {
       name,
       gender,
@@ -22,7 +24,7 @@ export class UpdatePassenger extends Component {
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.updatePassenger = this.updatePassenger.bind(this);
-    // console.log(this.props.selectedPassenger)
+    // console.log(this.props.passenger)
   }
   inputChange(e) {
     const name = e.target.name;
@@ -33,7 +35,7 @@ export class UpdatePassenger extends Component {
   }
 
   onScreenChange() {
-    this.props.onScreenChange("list");
+    this.props.setScreen("list");
   }
 
   updatePassenger(id) {
@@ -47,38 +49,39 @@ export class UpdatePassenger extends Component {
   }
 
   onUpdate(e) {
-    this.updatePassenger(this.props.selectedPassenger._id).then(
+    this.updatePassenger(this.props.passenger._id).then(
       this.onScreenChange
     );
     e.preventDefault();
   }
 
   componentDidMount() {
-    // console.log(`in didmount props: ${JSON.stringify(this.props.selectedPassenger, null, 4)}`);
-    this.inputRef.current.focus();
+    // console.log(`in didmount props: ${JSON.stringify(this.props.passenger, null, 4)}`);
+    this.inputRef.current.focus();  
+    this.props.setPassenger();  
   }
 
   componentDidUpdate(prevProps) {
     console.log(
       `in didupdate props: ${JSON.stringify(
-        this.props.selectedPassenger,
+        this.props.passenger,
         null,
         4
       )}`
     );
     if (
-      prevProps.selectedPassenger.name !== this.props.selectedPassenger.name ||
-      prevProps.selectedPassenger.gender !==
-        this.props.selectedPassenger.gender ||
-      prevProps.selectedPassenger.phone !==
-        this.props.selectedPassenger.phone ||
-      prevProps.selectedPassenger.email !==
-        this.props.selectedPassenger.email ||
-      Object.keys(prevProps.selectedPassenger).length !==
-        Object.keys(this.props.selectedPassenger).length
+      prevProps.passenger.name !== this.props.passenger.name ||
+      prevProps.passenger.gender !==
+        this.props.passenger.gender ||
+      prevProps.passenger.phone !==
+        this.props.passenger.phone ||
+      prevProps.passenger.email !==
+        this.props.passenger.email ||
+      Object.keys(prevProps.passenger).length !==
+        Object.keys(this.props.passenger).length
     ) {
       this.setState({
-        ...this.props.selectedPassenger
+        ...this.props.passenger
       });
     }
   }
@@ -86,7 +89,7 @@ export class UpdatePassenger extends Component {
   render() {
     console.log(
       `in render props: ${JSON.stringify(
-        this.props.selectedPassenger,
+        this.props.passenger,
         null,
         4
       )}`
@@ -154,11 +157,22 @@ export class UpdatePassenger extends Component {
           <br />
           <br />
           <input value="Update" type="submit" />
-          <button onClick={this.onScreenChange}>Back</button>
+          <button onClick={() => this.props.setScreen("list")}>Back</button>
         </form>
       </div>
     );
   }
 }
 
-export default UpdatePassenger;
+const mapStateToProps = state => ({
+  id: state.passengerId,
+  passengerList: state.passengers.passengerList,
+  passenger: state.passenger
+});
+
+const mapDispatchToProps = dispatch => ({
+  setScreen: screen => dispatch(setScreen(screen)),
+  setPassenger: () => dispatch(setSelectedPassenger())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdatePassenger);

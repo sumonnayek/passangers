@@ -4,7 +4,7 @@ import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
 import { connect } from "react-redux";
-import { fetchPassengers } from '../actions'
+import { fetchPassengers } from "../actions";
 
 class PassengerMain extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class PassengerMain extends Component {
     this.state = {
       screen: "list",
       selectedPassengerId: "",
-      selectedPassenger: "",
+      selectedPassenger: ""
     };
   }
 
@@ -22,14 +22,10 @@ class PassengerMain extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.screen !== prevState.screen) {
-      // this.fetchPassenger();
+    if (this.props.screen !== prevProps.screen) {
+      this.props.fetchPassengers();
     }
   }
-
-  onScreenChange = screen => {
-    this.setState({ screen });
-  };
 
   setSelectedPassenger = selectedPassengerId => {
     this.setState({ selectedPassengerId }, () => {
@@ -47,41 +43,29 @@ class PassengerMain extends Component {
       method: "DELETE"
     })
       .then(response => response.json())
-      .then(this.fetchPassenger);
+      .then(this.props.fetchPassengers);
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
 
     let presentScreen;
-    if (this.state.screen === "list") {
+    if (this.props.screen === "list") {
       presentScreen = (
         <PassengerList
-          onScreenChange={this.onScreenChange}
-          setSelectedPassenger={this.setSelectedPassenger}
           passengerList={this.props.passengerList}
           deletePassenger={this.deletePassenger}
           loading={this.props.loading}
         />
       );
-    } else if (this.state.screen === "view") {
+    } else if (this.props.screen === "view") {
+      presentScreen = <ViewPassenger />;
+    } else if (this.props.screen === "edit") {
       presentScreen = (
-        <ViewPassenger
-          selectedPassenger={this.state.selectedPassenger}
-          onScreenChange={this.onScreenChange}
-        />
+        <UpdatePassenger updatePassenger={this.updatePassenger} />
       );
-    } else if (this.state.screen === "edit") {
-      presentScreen = (
-        <UpdatePassenger
-          selectedPassenger={this.state.selectedPassenger}
-          onScreenChange={this.onScreenChange}
-          updatePassenger={this.updatePassenger}
-          fetchPassenger={this.fetchPassenger}
-        />
-      );
-    } else if (this.state.screen === "create") {
-      presentScreen = <AddPassenger onScreenChange={this.onScreenChange} />;
+    } else if (this.props.screen === "create") {
+      presentScreen = <AddPassenger />;
     }
     return (
       <div>
@@ -93,12 +77,13 @@ class PassengerMain extends Component {
 }
 
 const mapStateToProps = state => ({
-   passengerList: state.passengers.passengerList,
-   loading: state.passengers.loading
+  passengerList: state.passengers.passengerList,
+  loading: state.passengers.loading,
+  screen: state.screen
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchPassengers : () => dispatch(fetchPassengers())
-})
+  fetchPassengers: () => dispatch(fetchPassengers())
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PassengerMain)
+export default connect(mapStateToProps, mapDispatchToProps)(PassengerMain);

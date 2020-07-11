@@ -2,33 +2,37 @@ import {
   FETCH_PASSENGER_FAILURE,
   FETCH_PASSENGER_SUCCESS,
   FETCH_PASSENGER_REQUEST,
-  FETCH_PASSENGER_BYID_FAILURE,
-  FETCH_PASSENGER_BYID_SUCCESS,
-  FETCH_PASSENGER_BYID_REQUEST
+  SET_PASSENGER,
+  SET_PASSENGER_ID,
+  SET_SCREEN
 } from "./passengerTypes";
+import store from "../store";
 
 export const fetchPassengersRequest = () => ({
   type: FETCH_PASSENGER_REQUEST
 });
-export const fetchPassengersSuccess = passengers => ({
+export const fetchPassengersSuccess = passengerList => ({
   type: FETCH_PASSENGER_SUCCESS,
-  payload: passengers
+  payload: { passengerList }
 });
 export const fetchPassengersFailure = error => ({
   type: FETCH_PASSENGER_FAILURE,
-  error: error
+  payload: { error }
 });
 
-export const fetchPassengerByIdRequest = () => ({
-  type: FETCH_PASSENGER_BYID_REQUEST
+export const setPassenger = passenger => ({
+  type: SET_PASSENGER,
+  payload: { passenger }
 });
-export const fetchPassengerByIdSuccess = passenger => ({
-  type: FETCH_PASSENGER_BYID_SUCCESS,
-  payload: passenger
+
+export const setPassengerById = id => ({
+  type: SET_PASSENGER_ID,
+  payload: { id }
 });
-export const fetchPassengerByIdFailure = error => ({
-  type: FETCH_PASSENGER_BYID_FAILURE,
-  error: error
+
+export const setScreen = screen => ({
+  type: SET_SCREEN,
+  payload: { screen }
 });
 
 export const fetchPassengers = () => {
@@ -47,18 +51,15 @@ export const fetchPassengers = () => {
   };
 };
 
-export const fetchPassengerById = id => {
-  return dispatch => {
-    dispatch(fetchPassengerByIdRequest());
-    fetch(`http://localhost:5000/passengers/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        dispatch(fetchPassengerByIdSuccess(data));
-      })
-      .catch(error => {
-        const errorMsg = error.message;
-        dispatch(fetchPassengerByIdFailure(errorMsg));
-      });
+export const setSelectedPassenger = () => {
+  const state = store.getState();
+  const id = state.passengerId;
+  const passengerList = state.passengers.passengerList;
+  const passenger = passengerList.find(({ _id }) => _id === id);
+  let action = {
+    type: SET_PASSENGER,
+    payload: { passenger } 
   };
+  return action;
+  console.log(state);
 };

@@ -1,4 +1,6 @@
 import React, { Component, createRef } from "react";
+import { connect } from "react-redux";
+import { setScreen } from '../actions';
 
 class AddPassenger extends Component {
   constructor(props) {
@@ -44,7 +46,7 @@ class AddPassenger extends Component {
   async onSubmit(e) {
     e.preventDefault();
     await this.addPassenger(this.state);
-    this.onScreenChange();
+    this.props.setScreen('list');
   }
 
   render() {
@@ -111,11 +113,15 @@ class AddPassenger extends Component {
           <br />
           <br />
           <input value="Add Passenger" type="submit" />
-          <button onClick={this.onScreenChange}>Back</button>
+          <button onClick={() => {this.props.setScreen('list')}}>Back</button>
         </form>
       </div>
     );
   }
 }
 
-export default AddPassenger;
+const mapDispatchToProps = dispatch => ({
+  setScreen : screen => dispatch(setScreen(screen))
+});
+
+export default connect(null, mapDispatchToProps)(AddPassenger);
