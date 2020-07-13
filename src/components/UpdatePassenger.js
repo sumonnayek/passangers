@@ -61,17 +61,8 @@ export class UpdatePassenger extends Component {
   }
 
   componentDidMount() {
-    // console.log(`in didmount props: ${JSON.stringify(this.props.passenger, null, 4)}`);
     this.inputRef.current.focus();
-    // const { name, gender, phone, email, departure } = this.props.passenger;
     this.setThePassenger();
-    // this.setState({
-    //   name,
-    //   gender,
-    //   phone,
-    //   email,
-    //   departure
-    // })
   }
 
   componentDidUpdate(prevProps) {
@@ -92,18 +83,6 @@ export class UpdatePassenger extends Component {
         });
       }
     }
-    // if (
-    //   prevProps.passenger.name !== this.props.passenger.name ||
-    //   prevProps.passenger.gender !== this.props.passenger.gender ||
-    //   prevProps.passenger.phone !== this.props.passenger.phone ||
-    //   prevProps.passenger.email !== this.props.passenger.email ||
-    //   Object.keys(prevProps.passenger).length !==
-    //     Object.keys(this.props.passenger).length
-    // ) {
-    //   this.setState({
-    //     ...this.props.passenger
-    //   });
-    // }
   }
 
   render() {
