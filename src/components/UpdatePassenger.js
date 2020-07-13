@@ -6,24 +6,19 @@ export class UpdatePassenger extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
-    const {
-      name,
-      gender,
-      phone,
-      email,
-      departure
-    } = this.props.passenger;
+    // const { name, gender, phone, email, departure } = this.props.passenger;
     this.state = {
-      name,
-      gender,
-      phone,
-      email,
-      departure
+      name: "",
+      gender: "",
+      phone: "",
+      email: "",
+      departure: ""
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.updatePassenger = this.updatePassenger.bind(this);
+    this.setThePassenger = this.setThePassenger.bind(this);
     // console.log(this.props.passenger)
   }
   inputChange(e) {
@@ -49,50 +44,71 @@ export class UpdatePassenger extends Component {
   }
 
   onUpdate(e) {
-    this.updatePassenger(this.props.passenger._id).then(
-      this.onScreenChange
-    );
+    this.updatePassenger(this.props.passenger._id).then(this.onScreenChange);
     e.preventDefault();
+  }
+
+  async setThePassenger() {
+    await this.props.setPassenger();
+    const { name, gender, phone, email, departure } = this.props.passenger;
+    this.setState({
+      name,
+      gender,
+      phone,
+      email,
+      departure
+    });
   }
 
   componentDidMount() {
     // console.log(`in didmount props: ${JSON.stringify(this.props.passenger, null, 4)}`);
-    this.inputRef.current.focus();  
-    this.props.setPassenger();  
+    this.inputRef.current.focus();
+    // const { name, gender, phone, email, departure } = this.props.passenger;
+    this.setThePassenger();
+    // this.setState({
+    //   name,
+    //   gender,
+    //   phone,
+    //   email,
+    //   departure
+    // })
   }
 
   componentDidUpdate(prevProps) {
     console.log(
-      `in didupdate props: ${JSON.stringify(
-        this.props.passenger,
-        null,
-        4
-      )}`
+      `in didupdate props: ${JSON.stringify(this.props.passenger, null, 4)}`
     );
-    if (
-      prevProps.passenger.name !== this.props.passenger.name ||
-      prevProps.passenger.gender !==
-        this.props.passenger.gender ||
-      prevProps.passenger.phone !==
-        this.props.passenger.phone ||
-      prevProps.passenger.email !==
-        this.props.passenger.email ||
-      Object.keys(prevProps.passenger).length !==
-        Object.keys(this.props.passenger).length
-    ) {
-      this.setState({
-        ...this.props.passenger
-      });
+    if (prevProps.passenger) {
+      if (
+        prevProps.passenger.name !== this.props.passenger.name ||
+        prevProps.passenger.gender !== this.props.passenger.gender ||
+        prevProps.passenger.phone !== this.props.passenger.phone ||
+        prevProps.passenger.email !== this.props.passenger.email ||
+        Object.keys(prevProps.passenger).length !==
+          Object.keys(this.props.passenger).length
+      ) {
+        this.setState({
+          ...this.props.passenger
+        });
+      }
     }
+    // if (
+    //   prevProps.passenger.name !== this.props.passenger.name ||
+    //   prevProps.passenger.gender !== this.props.passenger.gender ||
+    //   prevProps.passenger.phone !== this.props.passenger.phone ||
+    //   prevProps.passenger.email !== this.props.passenger.email ||
+    //   Object.keys(prevProps.passenger).length !==
+    //     Object.keys(this.props.passenger).length
+    // ) {
+    //   this.setState({
+    //     ...this.props.passenger
+    //   });
+    // }
   }
 
   render() {
     console.log(
-      `in render props: ${JSON.stringify(
-        this.props.passenger,
-        null,
-        4
-      )}`
+      `in render props: ${JSON.stringify(this.props.passenger, null, 4)}`
     );
     return (
       <div>
