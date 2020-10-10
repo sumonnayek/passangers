@@ -1,89 +1,60 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import PassengerList from "./PassengerList";
 import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchPassengers } from "../actions";
+import Counter from "./Counter";
 
-class PassengerMain extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      screen: "list",
-      selectedPassengerId: "",
-      selectedPassenger: ""
-    };
-  }
-
-  componentDidMount() {
-    this.props.fetchPassengers();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.screen !== prevProps.screen) {
-      this.props.fetchPassengers();
-    }
-  }
-
-  setSelectedPassenger = selectedPassengerId => {
-    this.setState({ selectedPassengerId }, () => {
-      const { passengerList, selectedPassengerId } = this.state;
-      this.setState({
-        selectedPassenger: passengerList.find(
-          ({ _id }) => _id === selectedPassengerId
-        )
-      });
-    });
+const PassengerMain = () => {
+  const dispatch = useDispatch();
+  const fetchPassenger = () => {
+    dispatch(fetchPassengers());
   };
+  const screen = useSelector((state) => state.screen);
+  const passengerList = useSelector((state) => state.passengers.passengerList);
+  const loading = useSelector((state) => state.passengers.loading);
 
-  deletePassenger = id => {
+  useEffect(() => {
+    fetchPassenger();
+  }, []);
+
+  useEffect(() => {
+    fetchPassenger();
+  }, [screen]);
+
+  const deletePassenger = (id) => {
     fetch(`http://localhost:5000/passengers/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     })
-      .then(response => response.json())
-      .then(this.props.fetchPassengers);
+      .then((response) => response.json())
+      .then(fetchPassenger());
   };
 
-  render() {
-    console.log(this.props);
-
-    let presentScreen;
-    if (this.props.screen === "list") {
-      presentScreen = (
-        <PassengerList
-          passengerList={this.props.passengerList}
-          deletePassenger={this.deletePassenger}
-          loading={this.props.loading}
-        />
-      );
-    } else if (this.props.screen === "view") {
-      presentScreen = <ViewPassenger />;
-    } else if (this.props.screen === "edit") {
-      presentScreen = (
-        <UpdatePassenger updatePassenger={this.updatePassenger} />
-      );
-    } else if (this.props.screen === "create") {
-      presentScreen = <AddPassenger />;
-    }
-    return (
-      <div>
-        {presentScreen}
-        {/* {this.state.loading && <div>Loading...</div>} */}
-      </div>
+  let presentScreen;
+  if (screen === "list") {
+    presentScreen = (
+      <PassengerList
+        passengerList={passengerList}
+        deletePassenger={deletePassenger}
+        loading={loading}
+      />
     );
+  } else if (screen === "view") {
+    presentScreen = <ViewPassenger />;
+  } else if (screen === "edit") {
+    presentScreen = <UpdatePassenger />;
+  } else if (screen === "create") {
+    presentScreen = <AddPassenger />;
   }
-}
 
-const mapStateToProps = state => ({
-  passengerList: state.passengers.passengerList,
-  loading: state.passengers.loading,
-  screen: state.screen
-});
+  return (
+    <div>
+      {presentScreen}
+      {/* <Counter /> */}
+    </div>
+  );
+};
 
-const mapDispatchToProps = dispatch => ({
-  fetchPassengers: () => dispatch(fetchPassengers())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PassengerMain);
+export default PassengerMain;

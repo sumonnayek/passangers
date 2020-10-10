@@ -1,127 +1,107 @@
-import React, { Component, createRef } from "react";
-import { connect } from "react-redux";
-import { setScreen } from '../actions';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setScreen } from "../actions";
 
-class AddPassenger extends Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef()
-    this.state = {
-      name: "",
-      gender: "",
-      phone: "",
-      email: "",
-      departure: ""
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.addPassenger = this.addPassenger.bind(this);
-  }
+const AddPassenger = (props) => {
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    gender: "",
+    phone: "",
+    email: "",
+    departure: "",
+  });
+  const inputRef = React.createRef();
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    this.inputRef.current.focus();
-  }
-  
-  inputChange = e => {
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const inputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({
-      [name]: value //we need the different values coming inside name instead of name(ie, [name])
+    setUserDetails({
+      ...userDetails,
+      [name]: value,
     });
   };
 
-  onScreenChange = () => {
-    this.props.onScreenChange("list");
-  };
-
-  async addPassenger(newPassenger) {
-    let response = await fetch(`http://localhost:5000/passengers`, {
+  const addPassenger = async (newPassenger) => {
+    await fetch(`http://localhost:5000/passengers`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(newPassenger)
+      body: JSON.stringify(newPassenger),
     });
-  }
+  };
 
-  async onSubmit(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    await this.addPassenger(this.state);
-    this.props.setScreen('list');
-  }
+    await addPassenger(userDetails);
+    dispatch(setScreen("list"));
+  };
+  const { name, gender, phone, email, departure } = userDetails;
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={inputChange}
+            ref={inputRef}
+          />
+        </label>
+        <br />
+        <label>
+          Contact:
+          <input type="tel" name="phone" value={phone} onChange={inputChange} />
+        </label>
+        <br />
+        <label>
+          Gender
+          <select name="gender" value={gender} onChange={inputChange}>
+            <option value="">Select...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={inputChange}
+          />
+        </label>
+        <br />
+        <label>
+          From
+          <select name="departure" value={departure} onChange={inputChange}>
+            <option value="">Select...</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="pune">pune</option>
+            <option value="kolkata">kolkata</option>
+          </select>
+        </label>
+        <br />
+        <br />
+        <input value="Add Passenger" type="submit" />
+        <button
+          onClick={() => {
+            dispatch(setScreen("list"));
+          }}
+        >
+          Back
+        </button>
+      </form>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit}>
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.inputChange}
-              ref={this.inputRef}
-            />
-          </label>
-          <br />
-          <label>
-            Contact:
-            <input
-              type="tel"
-              name="phone"
-              value={this.state.phone}
-              onChange={this.inputChange}
-            />
-          </label>
-          <br />
-          <label>
-            Gender
-            <select
-              name="gender"
-              value={this.state.gender}
-              onChange={this.inputChange}
-            >
-              <option value="">Select...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </label>
-          <br />
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.inputChange}
-            />
-          </label>
-          <br />
-          <label>
-            From
-            <select
-              name="departure"
-              value={this.state.departure}
-              onChange={this.inputChange}
-            >
-              <option value="">Select...</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="pune">pune</option>
-              <option value="kolkata">kolkata</option>
-            </select>
-          </label>
-          <br />
-          <br />
-          <input value="Add Passenger" type="submit" />
-          <button onClick={() => {this.props.setScreen('list')}}>Back</button>
-        </form>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  setScreen : screen => dispatch(setScreen(screen))
-});
-
-export default connect(null, mapDispatchToProps)(AddPassenger);
+export default AddPassenger;

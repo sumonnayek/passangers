@@ -12,7 +12,7 @@ export class UpdatePassenger extends Component {
       gender: "",
       phone: "",
       email: "",
-      departure: ""
+      departure: "",
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
@@ -25,7 +25,7 @@ export class UpdatePassenger extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value //we need the different values coming inside name instead of name(ie, [name])
+      [name]: value, //we need the different values coming inside name instead of name(ie, [name])
     });
   }
 
@@ -37,9 +37,9 @@ export class UpdatePassenger extends Component {
     return fetch(`http://localhost:5000/passengers/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(this.state),
     });
   }
 
@@ -56,7 +56,7 @@ export class UpdatePassenger extends Component {
       gender,
       phone,
       email,
-      departure
+      departure,
     });
   }
 
@@ -79,7 +79,7 @@ export class UpdatePassenger extends Component {
           Object.keys(this.props.passenger).length
       ) {
         this.setState({
-          ...this.props.passenger
+          ...this.props.passenger,
         });
       }
     }
@@ -159,15 +159,19 @@ export class UpdatePassenger extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   id: state.passengerId,
   passengerList: state.passengers.passengerList,
-  passenger: state.passenger
+  passenger: state.passenger,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setScreen: screen => dispatch(setScreen(screen)),
-  setPassenger: () => dispatch(setSelectedPassenger())
+const mapDispatchToProps = (dispatch) => ({
+  setScreen: (screen) => dispatch(setScreen(screen)),
+  setPassenger: () => dispatch(setSelectedPassenger()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePassenger);
+
+// const UpdatePassenger = () => {
+
+// }

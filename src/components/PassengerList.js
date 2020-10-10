@@ -1,35 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import PassengerTable from "./PassengerTable";
-import { connect } from "react-redux";
-import { setScreen } from '../actions';
+import { useDispatch } from "react-redux";
+import { setScreen } from "../actions";
 
-class PassengerList extends Component {
-  constructor(props) {
-    super(props);
+const PassengerList = (props) => {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <PassengerTable
+        passengerList={props.passengerList}
+        deletePassenger={props.deletePassenger}
+      />
+      {props.loading && <div>Loading...</div>}
+      <button
+        onClick={() => {
+          dispatch(setScreen("create"));
+        }}
+      >
+        Add Passenger
+      </button>
+    </>
+  );
+};
 
-    this.state = {};
-  }
-
-  addPassengerScreen = () => {
-    this.props.onScreenChange("create");
-  };
-
-  render() {
-    return (
-      <>
-        <PassengerTable
-          passengerList={this.props.passengerList}
-          deletePassenger={this.props.deletePassenger}
-        />
-        {this.props.loading && <div>Loading...</div>}
-        <button onClick={() => {this.props.setScreen('create')}}>Add Passenger</button>
-      </>
-    );
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  setScreen : screen => dispatch(setScreen(screen))
-});
-
-export default connect(null, mapDispatchToProps)(PassengerList);
+export default PassengerList;
