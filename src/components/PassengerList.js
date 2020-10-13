@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PassengerTable from "./PassengerTable";
-import {Redirect, Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import auth from "./auth";
 
 class PassengerList extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class PassengerList extends Component {
 
     this.state = {
       passengerList: [],
-      loading: false
+      loading: false,
     };
     this.fetchPassenger = this.fetchPassenger.bind(this);
   }
@@ -17,8 +18,8 @@ class PassengerList extends Component {
     this.setState({ loading: true });
     setTimeout(() => {
       fetch("http://localhost:5000/passengers")
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           this.setState({ passengerList: data, loading: false });
         })
         .catch(console.log);
@@ -27,36 +28,48 @@ class PassengerList extends Component {
 
   componentDidMount() {
     this.fetchPassenger();
-    console.log('in did mount');
+    console.log("in did mount");
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('in did update');
+    console.log("in did update");
   }
 
-  deletePassenger = id => {
+  deletePassenger = (id) => {
     fetch(`http://localhost:5000/passengers/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     })
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(this.fetchPassenger);
   };
 
   addPassengerScreen = () => {
     // this.props.onScreenChange("create");
     console.log(this.props);
-    return <this to="/add" />
+    return <this to="/add" />;
+  };
+
+  logout = () => {
+    auth.logout(() => {
+      this.props.history.push("/");
+    });
   };
 
   render() {
     return (
       <>
+        <button onClick={this.logout}>logout</button>
+        <button>
+          <Link to="/charts">charts</Link>
+        </button>
         <PassengerTable
           passengerList={this.state.passengerList}
           deletePassenger={this.deletePassenger}
         />
         {this.state.loading && <div>Loading...</div>}
-        <button><Link  to='/add'>Add Passenger</Link></button>        
+        <button>
+          <Link to="/add">Add Passenger</Link>
+        </button>
       </>
     );
   }

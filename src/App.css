@@ -3,7 +3,14 @@
   display: flex;
   justify-content: center;
 }
-
+/* *:focus {
+  outline: none;
+} */
+textarea:focus,
+input:focus,
+button:focus {
+  outline: none;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -41,4 +48,15 @@ Button > a {
   to {
     transform: rotate(360deg);
   }
+}
+
+.add-form {
+  width: 400px;
+  margin-top: 50px;
+}
+.back-button {
+  margin-left: 20px;
+}
+.mixed-chart .apexcharts-toolbar {
+  display: none !important;
 }

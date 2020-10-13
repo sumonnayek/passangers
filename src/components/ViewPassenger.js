@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class ViewPassenger extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class ViewPassenger extends Component {
   }
 
   onScreenChange() {
-    this.props.history.push('/');
+    this.props.history.push("./passenger");
   }
 
   componentDidMount() {
@@ -16,11 +17,11 @@ class ViewPassenger extends Component {
     console.dir(this.props.match);
   }
 
-  getPassengerById = id => {
+  getPassengerById = (id) => {
     setTimeout(() => {
       fetch(`http://localhost:5000/passenger/${id}`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           this.setState({ ...data[0] });
         })
         .catch(console.log);
@@ -35,7 +36,9 @@ class ViewPassenger extends Component {
       <div>
         <h3>Passenger Details</h3>
         <div>{JSON.stringify(this.state, null, 4)}</div>
-        <button onClick={this.onScreenChange}>Back</button>
+        <button>
+          <Link to="/passenger">Back</Link>
+        </button>
       </div>
     );
   }

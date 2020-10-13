@@ -4,14 +4,21 @@ import ViewPassenger from "./ViewPassenger";
 import UpdatePassenger from "./UpdatePassenger";
 import AddPassenger from "./AddPassenger";
 import Login from "./Login";
-import { BrowserRouter as Redirect, Route, Switch } from "react-router-dom";
+import { ProtectedRoute } from "./protectedRoute";
+import {
+  // BrowserRouter as Redirect,
+  Route,
+  Switch,
+  BrowserRouter,
+} from "react-router-dom";
+import Charts from "./Charts";
 
 class PassengerMain extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loggedIn: false
+      loggedIn: false,
     };
   }
 
@@ -21,7 +28,7 @@ class PassengerMain extends Component {
 
   loginOnClick = () => {
     this.setState({ loggedIn: true });
-  }
+  };
 
   render() {
     console.log(this.state.loggedIn);
@@ -30,24 +37,21 @@ class PassengerMain extends Component {
     // }
 
     return (
-      <div>
-        {this.state.loggedIn && (
-          <button onClick={this.logoutOnClick}>Logout</button>
-        )}
-
-        <Switch>
-          {/* <Route path="/login" render = {() => (
+      <BrowserRouter>
+        <div>
+          <Switch>
+            {/* <Route path="/login" render = {() => (
             <Login loginOnClick={this.loginOnClick}/>
           )} /> */}
-          <Route path="/" exact>
-            {this.state.loggedIn ? <PassengerList /> : <Login loginOnClick={this.loginOnClick}/> }
-          </Route>
-          {/* <Route path="/login" component={Login} /> */}
-          <Route path="/view/:id" component={ViewPassenger} />
-          <Route path="/update/:id" component={UpdatePassenger} />
-          <Route path="/add" component={AddPassenger} />
-        </Switch>
-      </div>
+            <Route path="/" exact component={Login} />
+            <ProtectedRoute path="/passenger" component={PassengerList} />
+            <ProtectedRoute path="/view/:id" component={ViewPassenger} />
+            <ProtectedRoute path="/update/:id" component={UpdatePassenger} />
+            <ProtectedRoute path="/add" component={AddPassenger} />
+            <ProtectedRoute path="/charts" component={Charts} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

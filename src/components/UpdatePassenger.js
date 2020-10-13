@@ -10,7 +10,7 @@ class UpdatePassenger extends Component {
       gender: "",
       phone: "",
       email: "",
-      departure: ""
+      departure: "",
     };
     this.onScreenChange = this.onScreenChange.bind(this);
     this.inputChange = this.inputChange.bind(this);
@@ -23,27 +23,28 @@ class UpdatePassenger extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value //we need the different values coming inside name instead of name(ie, [name])
+      [name]: value, //we need the different values coming inside name instead of name(ie, [name])
     });
   }
 
   onScreenChange() {
-    this.props.history.goBack();
+    this.props.history.push("/passenger");
   }
 
   updatePassenger(id) {
     return fetch(`http://localhost:5000/passengers/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(this.state),
     });
   }
 
   onUpdate(e) {
-    this.updatePassenger(this.props.match.params.id)
-      .then(() => this.props.history.push("/"));
+    this.updatePassenger(this.props.match.params.id).then(() =>
+      this.props.history.push("/passenger")
+    );
     e.preventDefault();
   }
 
@@ -54,12 +55,12 @@ class UpdatePassenger extends Component {
     this.getPassengerById(this.props.match.params.id);
   }
 
-  getPassengerById = id => {
+  getPassengerById = (id) => {
     // this.setState({ loading: true });
     setTimeout(() => {
       fetch(`http://localhost:5000/passenger/${id}`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           this.setState({ ...data[0] });
         })
         .catch(console.log);

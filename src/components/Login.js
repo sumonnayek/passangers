@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import auth from "./auth";
 
 class Login extends Component {
   constructor(props) {
@@ -7,29 +8,31 @@ class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
   }
 
-  inputChange = e => {
+  inputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    if(this.state.email === 'sumon@gmail.com' && this.state.password === '1234') {
-      this.props.loginOnClick();
+    if (this.state.email === "" && this.state.password === "") {
+      auth.login(() => {
+        this.props.history.push("/passenger");
+      });
     } else {
-      alert('Entered email & password is Incorrect');
+      alert("Entered email or password is Incorrect");
     }
-  }
+  };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
         <form onSubmit={this.onSubmit}>
